@@ -20,7 +20,7 @@ const api = new ArticlesApi();
 
 const App = () => {
   const [articles, setArticles] = useState([]);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [articlesCount, setArticlesCount] = useState(1);
   const [loading, setLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -49,6 +49,17 @@ const App = () => {
       setLoading(false);
     });
   }, [page]);
+
+  useEffect(() => {
+    const storedPage = localStorage.getItem('currentPage')
+    if (storedPage) {
+      setPage(parseInt(storedPage))
+    }
+  }, []);
+
+  useEffect (() => {
+    localStorage.setItem('currentPage', page);
+  }, [page])
 
   const setNewArticle = (newArticle) => {
     const obj = newArticle.article;

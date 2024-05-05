@@ -70,7 +70,7 @@ const FormComponent = ({ count, onSave, form, editedArticle }) => {
             defaultValue={isEdit ? oldArticle.title : ''}
             className={(!isValid && errors?.title?.message && styles.not_valid) || ''}
             {...register('title', {
-              required: 'Поле обязательно к заполнению',
+              required: isEdit ? false : 'Поле обязательно к заполнению',
             })}
           />
         </label>

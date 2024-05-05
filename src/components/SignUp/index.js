@@ -66,6 +66,10 @@ const SignUp = () => {
             className={(!isValid && errors?.username?.message && styles.not_valid) || ''}
             {...register('username', {
               required: 'Поле обязательно к заполнению',
+              pattern: {
+                value: /^[^\s]+$/,
+                message: 'Имя пользователя не может содержать пробелы',
+              },
               minLength: {
                 value: 3,
                 message: 'Минимум 3 символа',
@@ -90,8 +94,10 @@ const SignUp = () => {
             className={(!isValid && errors?.email?.message && styles.not_valid) || ''}
             {...register('email', {
               required: 'Поле обязательно к заполнению',
-              pattern:
-                /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu,
+              pattern: {
+                value: /^[^\s]+@[^\s]+$/,
+                message: 'Не допускаются пробелы в адресе электронной почты',
+              },
             })}
           />
         </label>
@@ -108,6 +114,10 @@ const SignUp = () => {
             className={!isValid && errors?.password?.message && styles.not_valid}
             {...register('password', {
               required: 'Поле обязательно к заполнению',
+              pattern: {
+                value: /^[^\s]+$/,
+                message: 'Пароль не должен содержать пробелы',
+              },
               minLength: {
                 value: 6,
                 message: 'Минимум 6 символов',
