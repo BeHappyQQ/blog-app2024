@@ -27,10 +27,13 @@ const App = () => {
   const [userData, setUserData] = useState({});
   const [editedArticle, setEditedArtile] = useState(false);
   const [errors, setError] = useState(null);
+  const [isNeedArticlesRequest, setIsNeedArticlesRequest] = useState(true);
 
   const routeMath = useRouteMatch('/articles/:id');
   const routeMathArticles = useRouteMatch('/articles/');
   const routeMathMain = useRouteMatch('/');
+
+
 
   useEffect(() => {
     setLoading(true);
@@ -42,13 +45,15 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    console.log("IsNeedArticlesRequest", isNeedArticlesRequest)
     setLoading(true);
-    api.getAllArticles(page).then((res) => {
+    api.getAllArticles((page-1)*10).then((res) => {
       setArticles(res.articles);
       setArticlesCount(res.articlesCount);
       setLoading(false);
+      setIsNeedArticlesRequest(false);
     });
-  }, [page]);
+  }, [page, isNeedArticlesRequest]);
 
   useEffect(() => {
     const storedPage = localStorage.getItem('currentPage')
@@ -162,7 +167,7 @@ const App = () => {
           exact
           render={() => (
             <Suspense fallback={<Spinner />}>
-              <CreateArticle setNewArticle={setNewArticle} />
+              <CreateArticle setNewArticle={setNewArticle} setIsNeedArticlesRequest={setIsNeedArticlesRequest} />
             </Suspense>
           )}
         />
@@ -171,7 +176,7 @@ const App = () => {
           exact
           render={() => (
             <Suspense fallback={<Spinner />}>
-              <CreateArticle editedArticle={editedArticle} setNewArticle={setNewArticle} />
+              <CreateArticle editedArticle={editedArticle} setNewArticle={setNewArticle} setIsNeedArticlesRequest={setIsNeedArticlesRequest} />
             </Suspense>
           )}
         />

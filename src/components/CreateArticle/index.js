@@ -9,7 +9,7 @@ import { useRouteMatch } from 'react-router-dom';
 
 const apiUser = new ArticlesApi();
 
-const CreateArticle = ({ setNewArticle, editedArticle }) => {
+const CreateArticle = ({ setNewArticle, editedArticle, setIsNeedArticlesRequest }) => {
   const count = useRef(0);
   const history = useHistory();
   const routeMath = useRouteMatch('/articles/:id');
@@ -29,15 +29,18 @@ const onSave = async (data, inputValue) => {
       if (!requestData.title) {
         throw new Error('Title is required');
       }
-      res = await apiUser.createAnArticle(requestData);
-      if (res) {
-        const updatedArticles = await apiUser.getAllArticles(); 
+      res = await apiUser.createAnArticle(requestData)
+      .then((res) => {
+        if (res) {
+          setIsNeedArticlesRequest(true)
+          history.push('/articles/');
+        }
+      });
 
-        history.push('/articles/');
-      }
     } else {
       res = await apiUser.updateAnArticle(requestData, routeMath?.params?.id);
       if (res) {
+        setIsNeedArticlesRequest(true)
         history.push('/articles/');
       }
     }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './Article.module.scss';
 import { Article } from '../Article';
 import { withRouter } from 'react-router-dom';
@@ -38,6 +38,11 @@ const Articles = ({ history, articles, onFavoriteArticleFunc }) => {
       });
     }
   };
+
+  useEffect (() => {
+    console.log('articles', articles)
+
+  },[articles])
 
   return (
     <div className={styles.articles_list}>

@@ -2,9 +2,9 @@ import { getToken, setToken } from './api';
 
 export class ArticlesApi {
   baseURL = 'https://blog.kata.academy/api/';
-  getAllArticles = async (page) => {
+  getAllArticles = async (offset) => {
     const url = new URL(`${this.baseURL}articles`);
-    url.searchParams.append('offset', page);
+    url.searchParams.append('offset', offset);
     url.searchParams.append('limit', 10);
     const response = await fetch(url);
     const data = await response.json();
